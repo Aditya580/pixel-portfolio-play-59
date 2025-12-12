@@ -171,7 +171,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h3 className="font-pixel text-sm text-foreground">
-                    GAURAV GUPTA
+                    Aditya Shrivastava
                   </h3>
                   <p className="text-sm text-muted-foreground font-mono">
                     Frontend + Creator
@@ -195,7 +195,7 @@ const ContactSection = () => {
               <h4 className="hud-element text-accent mb-4">QUICK CONNECT</h4>
               <div className="space-y-4">
                 <motion.a
-                  href="mailto:CONTACTGAURAV8@GMAIL.COM"
+                  href="mailto:adityashrivastav022@gmail.com"
                   whileHover={{ x: 5 }}
                   className="flex items-center gap-3 text-foreground hover:text-primary transition-colors group"
                 >
@@ -207,7 +207,7 @@ const ContactSection = () => {
                       EMAIL
                     </span>
                     <span className="font-mono text-sm">
-                      CONTACTGAURAV8@GMAIL.COM
+                      adityashrivastav022@gmail.com
                     </span>
                   </div>
                 </motion.a>
@@ -224,7 +224,7 @@ const ContactSection = () => {
                     <span className="block text-xs text-muted-foreground font-mono">
                       DISCORD
                     </span>
-                    <span className="font-mono text-sm">@gaurav_dev</span>
+                    <span className="font-mono text-sm">@adiii_dev</span>
                   </div>
                 </motion.a>
               </div>
