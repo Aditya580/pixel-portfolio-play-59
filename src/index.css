@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 170 50% 8%;
+    --foreground: 60 30% 96%;
+
+    --card: 170 45% 12%;
+    --card-foreground: 60 30% 96%;
+
+    --popover: 170 45% 10%;
+    --popover-foreground: 60 30% 96%;
+
+    --primary: 32 95% 55%;
+    --primary-foreground: 170 50% 8%;
+
+    --secondary: 175 70% 45%;
+    --secondary-foreground: 170 50% 8%;
+
+    --muted: 170 40% 16%;
+    --muted-foreground: 170 20% 60%;
+
+    --accent: 175 80% 50%;
+    --accent-foreground: 170 50% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 60 30% 96%;
+
+    --border: 170 40% 20%;
+    --input: 170 40% 20%;
+    --ring: 32 95% 55%;
+
+    --radius: 0.25rem;
+
+    /* Custom game colors */
+    --neon-orange: 32 95% 55%;
+    --neon-cyan: 175 80% 50%;
+    --neon-green: 145 80% 50%;
+    --neon-pink: 330 80% 60%;
+    --dark-teal: 170 50% 8%;
+    --card-teal: 170 45% 12%;
+    --border-glow: 170 40% 25%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(170 50% 8%) 0%, hsl(170 45% 12%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(170 45% 14%) 0%, hsl(170 45% 10%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(32 95% 55%) 0%, hsl(40 95% 60%) 100%);
+
+    /* Shadows */
+    --shadow-neon: 0 0 20px hsl(32 95% 55% / 0.3);
+    --shadow-cyan: 0 0 20px hsl(175 80% 50% / 0.3);
+    --shadow-card: 0 4px 20px hsl(170 50% 4% / 0.5);
+
+    --sidebar-background: 170 50% 8%;
+    --sidebar-foreground: 60 30% 96%;
+    --sidebar-primary: 32 95% 55%;
+    --sidebar-primary-foreground: 170 50% 8%;
+    --sidebar-accent: 170 45% 16%;
+    --sidebar-accent-foreground: 60 30% 96%;
+    --sidebar-border: 170 40% 20%;
+    --sidebar-ring: 32 95% 55%;
+  }
+
+  .dark {
+    --background: 170 50% 8%;
+    --foreground: 60 30% 96%;
+    --card: 170 45% 12%;
+    --card-foreground: 60 30% 96%;
+    --popover: 170 45% 10%;
+    --popover-foreground: 60 30% 96%;
+    --primary: 32 95% 55%;
+    --primary-foreground: 170 50% 8%;
+    --secondary: 175 70% 45%;
+    --secondary-foreground: 170 50% 8%;
+    --muted: 170 40% 16%;
+    --muted-foreground: 170 20% 60%;
+    --accent: 175 80% 50%;
+    --accent-foreground: 170 50% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 60 30% 96%;
+    --border: 170 40% 20%;
+    --input: 170 40% 20%;
+    --ring: 32 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Press Start 2P', cursive;
+  }
+}
+
+@layer components {
+  .pixel-border {
+    @apply border-2 border-primary;
+    box-shadow: 
+      4px 4px 0 0 hsl(var(--primary)),
+      inset 0 0 0 1px hsl(var(--border));
+  }
+
+  .pixel-border-cyan {
+    @apply border-2 border-accent;
+    box-shadow: 
+      4px 4px 0 0 hsl(var(--accent)),
+      inset 0 0 0 1px hsl(var(--border));
+  }
+
+  .neon-glow {
+    text-shadow: 
+      0 0 10px hsl(var(--primary)),
+      0 0 20px hsl(var(--primary) / 0.5),
+      0 0 40px hsl(var(--primary) / 0.3);
+  }
+
+  .neon-glow-cyan {
+    text-shadow: 
+      0 0 10px hsl(var(--accent)),
+      0 0 20px hsl(var(--accent) / 0.5),
+      0 0 40px hsl(var(--accent) / 0.3);
+  }
+
+  .game-card {
+    @apply bg-card border border-border rounded-sm;
+    background: linear-gradient(145deg, hsl(170 45% 14%) 0%, hsl(170 45% 10%) 100%);
+    box-shadow: 0 4px 20px hsl(170 50% 4% / 0.5);
+  }
+
+  .hud-element {
+    @apply text-xs uppercase tracking-wider text-muted-foreground;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.6rem;
+  }
+
+  .skill-bar {
+    @apply h-2 bg-muted rounded-full overflow-hidden;
+  }
+
+  .skill-bar-fill {
+    @apply h-full bg-gradient-to-r from-primary to-accent;
+    transition: width 1s ease-out;
+  }
+
+  .scanline {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(170 50% 4% / 0.03) 2px,
+      hsl(170 50% 4% / 0.03) 4px
+    );
+    pointer-events: none;
+  }
+
+  .crt-effect {
+    animation: crt-flicker 0.15s infinite;
+  }
+
+  @keyframes crt-flicker {
+    0% { opacity: 0.97; }
+    50% { opacity: 1; }
+    100% { opacity: 0.98; }
+  }
+
+  .typing-cursor {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+}
