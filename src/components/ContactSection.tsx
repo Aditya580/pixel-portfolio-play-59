@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, RotateCcw, Mail, MessageCircle, User } from "lucide-react";
+import { Send, RotateCcw, Mail, MessageCircle, User, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const ref = useRef(null);
@@ -14,14 +15,34 @@ const ContactSection = () => {
     email: "",
     message: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "MESSAGE SENT!",
-      description: "Thanks for reaching out. I'll get back to you soon!",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: formData,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "MESSAGE SENT!",
+        description: "Thanks for reaching out. I'll get back to you soon!",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleReset = () => {
@@ -136,19 +157,21 @@ const ContactSection = () => {
               <div className="flex gap-4 mt-6">
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-pixel text-xs rounded hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-shadow"
+                  disabled={isLoading}
+                  whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                  whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-pixel text-xs rounded hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send size={16} />
-                  SEND
+                  {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                  {isLoading ? "SENDING..." : "SEND"}
                 </motion.button>
                 <motion.button
                   type="button"
                   onClick={handleReset}
+                  disabled={isLoading}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 border border-border text-muted-foreground font-pixel text-xs rounded hover:border-primary hover:text-primary transition-colors"
+                  className="px-6 py-3 border border-border text-muted-foreground font-pixel text-xs rounded hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
                 >
                   <RotateCcw size={16} />
                 </motion.button>
