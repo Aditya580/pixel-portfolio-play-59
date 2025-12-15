@@ -1,164 +1,114 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
 
 const categories = ["Foundations", "Frontend", "Motion & Scroll", "Build & Backend"];
 
-const skillsByCategory: Record<string, { name: string; level: string; icon: string }[]> = {
-  Foundations: [
-    { name: "HTML", icon: "📄", level: "Expert" },
-    { name: "CSS", icon: "🎨", level: "Expert" },
-    { name: "JavaScript", icon: "⚡", level: "Expert" },
-    { name: "TypeScript", icon: "📘", level: "Advanced" },
-    { name: "A11y", icon: "♿", level: "Advanced" },
-    { name: "Testing", icon: "🧪", level: "Advanced" },
-  ],
-  Frontend: [
-    { name: "React & Next.js", icon: "⚛️", level: "Expert" },
-    { name: "Vue.js", icon: "💚", level: "Advanced" },
-    { name: "Tailwind CSS", icon: "🌊", level: "Expert" },
-    { name: "UI/UX Design", icon: "🎯", level: "Advanced" },
-    { name: "Responsive Design", icon: "📱", level: "Expert" },
-    { name: "Component Systems", icon: "🧩", level: "Expert" },
-  ],
-  "Motion & Scroll": [
-    { name: "Framer Motion", icon: "🎬", level: "Expert" },
-    { name: "GSAP Animations", icon: "🎭", level: "Advanced" },
-    { name: "Lottie", icon: "✨", level: "Advanced" },
-    { name: "Scroll Triggers", icon: "📜", level: "Expert" },
-    { name: "Page Transitions", icon: "🔄", level: "Expert" },
-    { name: "Micro-interactions", icon: "👆", level: "Expert" },
-  ],
-  "Build & Backend": [
-    { name: "Node.js", icon: "🟢", level: "Advanced" },
-    { name: "Vite & Webpack", icon: "📦", level: "Expert" },
-    { name: "REST APIs", icon: "🔌", level: "Advanced" },
-    { name: "Git & CI/CD", icon: "🔧", level: "Expert" },
-    { name: "Performance", icon: "🚀", level: "Expert" },
-    { name: "Databases", icon: "💾", level: "Intermediate" },
-  ],
+const skillsByCategory = {
+  Foundations: ["HTML", "CSS", "JavaScript", "TypeScript", "A11y", "Testing"],
+  Frontend: ["React", "Next.js", "Tailwind", "UI/UX", "Responsive", "Components"],
+  "Motion & Scroll": ["Framer Motion", "GSAP", "Lottie", "ScrollTrigger", "Transitions"],
+  "Build & Backend": ["Node.js", "Vite", "APIs", "Git", "Performance", "DBs"],
 };
 
-const coreAbilities = [
-  { name: "React & Next.js", level: "Expert", icon: "⚛️" },
-  { name: "Performance", level: "Expert", icon: "🚀" },
-  { name: "Framer Motion", level: "Expert", icon: "🎬" },
-  { name: "UI/UX Design", level: "Advanced", icon: "🎯" },
-  { name: "TypeScript", level: "Advanced", icon: "📘" },
-  { name: "GSAP Animations", level: "Advanced", icon: "🎭" },
-];
-
 const SkillsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeCategory, setActiveCategory] = useState("Foundations");
+  const [active, setActive] = useState("Foundations");
 
   return (
-    <section id="skills" className="py-24 bg-card/30" ref={ref}>
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <span className="hud-element text-primary">// ABILITIES</span>
-          <h2 className="font-pixel text-xl md:text-2xl text-foreground mt-2">
-            SKILLS • <span className="text-accent">LOADOUT</span>
+    <section id="skills" className="py-28 bg-[#0f5a3c] text-white">
+      <div className="container mx-auto px-6">
+
+        {/* TITLE */}
+        <div className="text-center mb-14">
+          <h2 className="text-5xl font-extrabold tracking-wide drop-shadow-lg">
+            SKILLS • LOADOUT
           </h2>
-        </motion.div>
+          <p className="mt-3 text-white/80">
+            🎮 Choose your class • Prove your mastery • Level up your game
+          </p>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Core Abilities */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h3 className="hud-element text-accent mb-6">CORE ABILITIES</h3>
-            <div className="space-y-4">
-              {coreAbilities.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ x: 5 }}
-                  className="game-card p-4 flex items-center justify-between group cursor-default"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{skill.icon}</span>
-                    <span className="font-mono text-foreground">{skill.name}</span>
-                  </div>
-                  <span
-                    className={`px-3 py-1 text-xs font-pixel rounded ${
-                      skill.level === "Expert"
-                        ? "bg-primary/20 text-primary"
-                        : "bg-accent/20 text-accent"
-                    }`}
-                  >
-                    {skill.level.toUpperCase()}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Skills Loadout */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <h3 className="hud-element text-accent mb-6">EQUIPMENT</h3>
-
-            {/* Category Tabs */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              {categories.map((category) => (
-                <motion.button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 text-xs font-mono rounded transition-all ${
-                    activeCategory === category
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {category.toUpperCase()}
-                </motion.button>
-              ))}
-            </div>
-
-            {/* Skills Grid */}
-            <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-3"
+        {/* CATEGORY PILLS */}
+        <div className="flex flex-wrap justify-center gap-4 mb-14">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActive(cat)}
+              className={`px-6 py-3 rounded-xl font-bold border-2 transition
+                ${
+                  active === cat
+                    ? "bg-yellow-400 text-black border-yellow-300 shadow-lg"
+                    : "bg-green-800 border-green-700 hover:bg-green-700"
+                }`}
             >
-              {skillsByCategory[activeCategory].map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.2, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  className="game-card p-3 text-center cursor-default group"
+              {cat.toUpperCase()}
+            </button>
+          ))}
+        </div>
+
+        {/* MAIN GRID */}
+        <div className="grid lg:grid-cols-3 gap-10">
+
+          {/* LEFT BIG CARD */}
+          <div className="lg:col-span-2 rounded-3xl border-4 border-green-900 bg-gradient-to-b from-green-700 to-green-800 p-8 shadow-2xl">
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-4xl">🏗️</span>
+              <div>
+                <h3 className="text-3xl font-extrabold">{active.toUpperCase()}</h3>
+                <p className="text-yellow-300 text-sm font-semibold">
+                  ⭐ Level 1 / 4
+                </p>
+              </div>
+            </div>
+
+            <hr className="border-green-900 mb-6" />
+
+            <h4 className="text-sm tracking-widest text-yellow-300 mb-4">
+              EQUIPMENT
+            </h4>
+
+            <div className="flex flex-wrap gap-3">
+              {skillsByCategory[active].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-5 py-2 rounded-xl bg-yellow-400 text-black font-bold shadow-md"
                 >
-                  <span className="text-2xl block mb-2 group-hover:animate-float">
-                    {skill.icon}
-                  </span>
-                  <span className="text-xs font-mono text-foreground block">
-                    {skill.name}
-                  </span>
-                </motion.div>
+                  {skill.toUpperCase()}
+                </span>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
+
+          {/* RIGHT PROGRESS CARDS */}
+          <div className="space-y-6">
+            {categories.map((cat) => (
+              <div
+                key={cat}
+                className={`rounded-2xl p-6 border-4 transition
+                  ${
+                    active === cat
+                      ? "bg-green-700 border-yellow-400"
+                      : "bg-green-800 border-green-900"
+                  }`}
+              >
+                <div className="flex justify-between mb-3">
+                  <span className="font-bold">{cat}</span>
+                  <span className="text-sm text-white/70">
+                    {skillsByCategory[cat].length} Skills
+                  </span>
+                </div>
+
+                <div className="h-2 rounded-full bg-green-900 overflow-hidden">
+                  <div
+                    className="h-full bg-yellow-400"
+                    style={{
+                      width: `${(skillsByCategory[cat].length / 6) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

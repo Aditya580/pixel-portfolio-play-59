@@ -1,196 +1,179 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { MapPin, Calendar, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { Calendar, MapPin } from "lucide-react";
 
-const experiences = [
+type Experience = {
+  id: string;
+  company: string;
+  role: string;
+  period: string;
+  location: string;
+  achievements: string[];
+  stack: string[];
+};
+
+const experiences: Experience[] = [
   {
-    id: "neoarcade",
-    company: "NeoArcade Labs",
-    role: "Senior Frontend Engineer",
-    period: "2023 - Present",
+    id: "iota",
+    company: "IOTA Informatics",
+    role: "Configuration Management & QA Intern",
+    period: "2023",
+    location: "India",
+    achievements: [
+      "Worked as a Configuration Manager for project builds and releases",
+      "Performed manual testing to identify functional and UI bugs",
+      "Used JIRA to report, track, and manage defects and tasks",
+    ],
+    stack: ["Manual Testing", "JIRA", "Configuration Management", "SDLC"],
+  },
+  {
+    id: "datanutts",
+    company: "DataNutts Solutions",
+    role: "SQL & Data Analysis Intern",
+    period: "2022",
     location: "Remote",
     achievements: [
-      "Motion-first rebuild achieving consistent 60fps across all interactions",
-      "+20% conversion on primary funnels through UX optimization",
-      "Improved LCP from 2.8s to 1.7s with strategic code splitting",
-      "Built component library used across 5 product teams",
+      "Understood and applied core SQL concepts",
+      "Solved company-provided SQL assessments and problem statements",
+      "Worked with structured datasets to extract meaningful insights",
     ],
-    stack: ["React", "GSAP", "Framer Motion", "Next.js", "Tailwind", "Vite"],
+    stack: ["SQL", "MySQL", "Database Concepts"],
   },
   {
-    id: "codearrays",
-    company: "Codearrays",
-    role: "Frontend Developer",
-    period: "2021 - 2023",
-    location: "Bangalore, India",
+    id: "infosys-springboard",
+    company: "Infosys Springboard",
+    role: "Java Intern (Virtual Internship 6.0)",
+    period: "2025",
+    location: "Virtual",
     achievements: [
-      "Developed interactive data visualization dashboards",
-      "Reduced bundle size by 40% through lazy loading",
-      "Mentored junior developers on React best practices",
+      "Completed Java-focused learning modules and assessments",
+      "Practiced OOP concepts through hands-on exercises",
+      "Strengthened backend fundamentals using real-world scenarios",
     ],
-    stack: ["React", "D3.js", "TypeScript", "Redux", "Styled Components"],
-  },
-  {
-    id: "hyperplay",
-    company: "HyperPlay Studios",
-    role: "UI Developer",
-    period: "2020 - 2021",
-    location: "Remote",
-    achievements: [
-      "Created game-inspired interfaces for web applications",
-      "Implemented complex animation sequences with GSAP",
-      "Built responsive layouts for gaming dashboards",
-    ],
-    stack: ["Vue.js", "GSAP", "CSS Animations", "WebGL"],
-  },
-  {
-    id: "synthos",
-    company: "Synthos",
-    role: "Junior Developer",
-    period: "2019 - 2020",
-    location: "Pune, India",
-    achievements: [
-      "Built and maintained client websites",
-      "Learned modern frontend development practices",
-      "Contributed to design system development",
-    ],
-    stack: ["HTML", "CSS", "JavaScript", "jQuery", "Bootstrap"],
+    stack: ["Java", "OOPs", "Spring Basics", "SQL"],
   },
 ];
 
-const ExperienceSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeExp, setActiveExp] = useState(experiences[0]);
+export default function ExperienceSection() {
+  const [activeExp, setActiveExp] = useState<Experience>(experiences[0]);
 
   return (
-    <section id="experience" className="py-24" ref={ref}>
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <span className="hud-element text-primary">// CAREER</span>
-          <h2 className="font-pixel text-xl md:text-2xl text-foreground mt-2">
-            EXPERIENCE <span className="text-accent">LOG</span>
+    <section
+      id="experience"
+      className="py-24 bg-[#FFF7B3] text-black"
+    >
+      <div className="container mx-auto px-6">
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-extrabold tracking-wide">
+            EXPERIENCE
           </h2>
-        </motion.div>
+          <p className="mt-2 text-sm text-gray-600">
+            Analog switchboard · CRT boot dossier
+          </p>
+        </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Company Switcher */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-2"
-          >
-            <h3 className="hud-element text-accent mb-4">SWITCHBOARD</h3>
-            {experiences.map((exp, index) => (
-              <motion.button
-                key={exp.id}
-                onClick={() => setActiveExp(exp)}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-                whileHover={{ x: 5 }}
-                className={`w-full text-left p-4 rounded transition-all flex items-center justify-between group ${
-                  activeExp.id === exp.id
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-card hover:bg-muted text-foreground"
-                }`}
-              >
-                <span className="font-mono text-sm">{exp.company}</span>
-                <ChevronRight
-                  size={16}
-                  className={`transition-transform ${
-                    activeExp.id === exp.id ? "rotate-90" : "group-hover:translate-x-1"
-                  }`}
-                />
-              </motion.button>
-            ))}
-          </motion.div>
+        <div className="grid lg:grid-cols-2 gap-10">
+          {/* LEFT SWITCHBOARD */}
+          <div className="border-4 border-black rounded-xl bg-white shadow-xl">
+            <div className="border-b-4 border-black px-6 py-3 flex justify-between text-xs font-bold">
+              <span>SWITCHBOARD</span>
+              <span className="text-gray-500">
+                Flip a toggle to route signal
+              </span>
+            </div>
 
-          {/* Experience Details */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="lg:col-span-2"
-          >
-            <motion.div
-              key={activeExp.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-              className="game-card p-6 md:p-8"
-            >
-              {/* Header */}
-              <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-                <div>
-                  <h3 className="font-pixel text-sm md:text-base text-foreground mb-2">
-                    {activeExp.role}
-                  </h3>
-                  <p className="text-primary font-mono">{activeExp.company}</p>
-                </div>
-                <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-2">
-                    <Calendar size={14} />
-                    {activeExp.period}
+            <div className="p-6 space-y-4">
+              {experiences.map((exp) => (
+                <button
+                  key={exp.id}
+                  onClick={() => setActiveExp(exp)}
+                  className={`w-full flex items-center justify-between px-5 py-4 border-4 rounded-lg transition-all
+                    ${
+                      activeExp.id === exp.id
+                        ? "bg-yellow-400 border-black"
+                        : "bg-white border-gray-300 hover:border-black"
+                    }
+                  `}
+                >
+                  <span className="font-bold tracking-wide text-sm">
+                    {exp.company.toUpperCase()}
                   </span>
-                  <span className="flex items-center gap-2">
-                    <MapPin size={14} />
-                    {activeExp.location}
+
+                  {/* Toggle */}
+                  <span
+                    className={`w-12 h-6 rounded-full border-2 flex items-center px-1 transition
+                      ${
+                        activeExp.id === exp.id
+                          ? "bg-black border-black justify-end"
+                          : "bg-white border-black justify-start"
+                      }
+                    `}
+                  >
+                    <span className="w-4 h-4 bg-white rounded-full border" />
                   </span>
-                </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT CRT MONITOR */}
+          <div className="border-4 border-black rounded-xl bg-white shadow-xl">
+            {/* CRT HEADER */}
+            <div className="border-b-4 border-black px-6 py-3 flex items-center gap-2">
+              <span className="w-3 h-3 bg-red-500 rounded-full" />
+              <span className="w-3 h-3 bg-yellow-400 rounded-full" />
+              <span className="w-3 h-3 bg-green-500 rounded-full" />
+              <span className="ml-4 text-xs font-bold tracking-wide">
+                CRT MONITOR
+              </span>
+            </div>
+
+            {/* CONTENT */}
+            <div className="p-8 grid md:grid-cols-3 gap-6">
+              {/* ROLE CARD */}
+              <div className="border-4 border-black rounded-lg p-4 bg-[#FFF7B3]">
+                <h4 className="font-extrabold text-sm mb-2">
+                  {activeExp.role.toUpperCase()}
+                </h4>
+                <p className="text-xs">{activeExp.company}</p>
+                <p className="text-xs mt-2 flex items-center gap-1">
+                  <Calendar size={12} /> {activeExp.period}
+                </p>
+                <p className="text-xs flex items-center gap-1">
+                  <MapPin size={12} /> {activeExp.location}
+                </p>
               </div>
 
-              {/* Achievements */}
-              <div className="mb-6">
-                <h4 className="hud-element text-accent mb-4">ACHIEVEMENTS</h4>
-                <ul className="space-y-3">
-                  {activeExp.achievements.map((achievement, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      className="flex items-start gap-3 text-muted-foreground font-mono text-sm"
-                    >
-                      <span className="text-primary mt-1">▸</span>
-                      {achievement}
-                    </motion.li>
+              {/* DETAILS */}
+              <div className="md:col-span-2">
+                <h3 className="text-2xl font-extrabold text-orange-500 mb-4">
+                  {activeExp.company.toUpperCase()}
+                </h3>
+
+                <ul className="space-y-2 text-sm mb-6">
+                  {activeExp.achievements.map((a, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span>▪</span>
+                      {a}
+                    </li>
                   ))}
                 </ul>
-              </div>
 
-              {/* Tech Stack */}
-              <div>
-                <h4 className="hud-element text-accent mb-4">TECH STACK</h4>
                 <div className="flex flex-wrap gap-2">
-                  {activeExp.stack.map((tech, index) => (
-                    <motion.span
+                  {activeExp.stack.map((tech) => (
+                    <span
                       key={tech}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.2, delay: index * 0.05 }}
-                      whileHover={{ scale: 1.1 }}
-                      className="px-3 py-1 bg-muted text-foreground text-xs font-mono rounded"
+                      className="px-3 py-1 border-2 border-black rounded text-xs font-semibold"
                     >
                       {tech}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default ExperienceSection;
+}

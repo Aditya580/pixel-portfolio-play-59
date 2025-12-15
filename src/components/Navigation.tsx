@@ -1,116 +1,96 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { label: "HOME", href: "#home" },
-  { label: "ABOUT", href: "#about" },
-  { label: "SKILLS", href: "#skills" },
-  { label: "EXPERIENCE", href: "#experience" },
-  { label: "PROJECTS", href: "#projects" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Acheivements", href: "#achievements" },
 ];
 
-const Navigation = () => {
+export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-4 left-0 right-0 z-50 flex justify-center select-none">
+      <div className="relative w-[92%] max-w-5xl">
+        {/* MAIN NAV BAR */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="bg-white rounded-full px-6 py-3 shadow-[4px_4px_0px_#000] border-2 border-black flex items-center justify-between"
+        >
           {/* Logo */}
-          <motion.a
-            href="#home"
-            className="font-pixel text-primary text-xs tracking-wider"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            GAURAV<span className="text-accent">.DEV</span>
-          </motion.a>
+          <div className="w-6 h-6 rounded-full bg-orange-400 border-2 border-black shadow-[3px_3px_0px_#000]" />
 
-          {/* HUD Stats */}
-          <div className="hidden md:flex items-center gap-6 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <span className="text-neon-green">HP</span>
-              <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-neon-green"
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                />
-              </div>
-              <span className="text-foreground">100</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-primary">XP</span>
-              <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-primary"
-                  initial={{ width: 0 }}
-                  animate={{ width: "39%" }}
-                  transition={{ duration: 1, delay: 0.7 }}
-                />
-              </div>
-              <span className="text-foreground">39%</span>
-            </div>
-          </div>
-
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item, index) => (
-              <motion.a
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center gap-8 font-medium text-gray-700 text-sm tracking-wide">
+            {navItems.map((item) => (
+              <a
                 key={item.label}
                 href={item.href}
-                className="px-3 py-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors relative group"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                whileHover={{ y: -2 }}
+                className="hover:text-black transition"
               >
                 {item.label}
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-              </motion.a>
+              </a>
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            className="lg:hidden p-2 text-foreground"
-            onClick={() => setIsOpen(!isOpen)}
-            whileTap={{ scale: 0.9 }}
+          {/* Desktop CTA */}
+          <a
+            href="#contact"
+            className="hidden lg:block bg-orange-400 text-white px-5 py-2 rounded-full font-semibold border-2 border-black shadow-[3px_3px_0px_#000]"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
-        </div>
-      </div>
+            Contact me
+          </a>
 
-      {/* Mobile Menu */}
-      <motion.div
-        initial={false}
-        animate={{ height: isOpen ? "auto" : 0 }}
-        className="lg:hidden overflow-hidden bg-card border-t border-border"
-      >
-        <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="px-4 py-3 text-sm font-mono text-muted-foreground hover:text-primary hover:bg-muted/50 rounded transition-colors"
-              onClick={() => setIsOpen(false)}
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setIsOpen((p) => !p)}
+            className="lg:hidden p-2 border-2 border-black text-[#2A2A2A] rounded-md bg-white shadow-[3px_3px_0px_#000]"
+          >
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </motion.div>
+
+        {/* MOBILE DROPDOWN */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="absolute top-full mt-3 w-full text-[#2A2A2A] bg-white rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] overflow-hidden lg:hidden"
             >
-              {item.label}
-            </a>
-          ))}
-        </div>
-      </motion.div>
-    </motion.nav>
-  );
-};
+              <div className="flex flex-col divide-y">
+                {navItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="px-6 py-4 text-sm font-semibold text-orange-500 hover:bg-yellow-100 transition"
+                  >
+                    {item.label}
+                  </a>
+                ))}
 
-export default Navigation;
+                <a
+                  href="#contact"
+                  onClick={() => setIsOpen(false)}
+                  className="px-6 py-4 bg-orange-400 text-white font-bold text-center"
+                >
+                  Contact me
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </nav>
+  );
+}

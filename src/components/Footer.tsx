@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { Github, Twitter, Linkedin, Heart } from "lucide-react";
+import { Github, Instagram, Linkedin, Heart } from "lucide-react";
 
 const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
+  { icon: Github, href: "https://github.com/Aditya580", label: "GitHub" },
+  { icon: Instagram, href: "https://www.instagram.com/adi_shrivastav04/?next=%2F", label: "Instagram" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/aditya-shrivastav-536ba2227/", label: "LinkedIn" },
 ];
 
 const Footer = () => {
@@ -18,7 +18,7 @@ const Footer = () => {
             className="font-pixel text-primary text-xs tracking-wider"
             whileHover={{ scale: 1.05 }}
           >
-            GAURAV<span className="text-accent">.DEV</span>
+            ADITYA<span className="text-accent">.DEV</span>
           </motion.a>
 
           {/* Social Links */}
@@ -39,7 +39,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-xs text-muted-foreground font-mono flex items-center gap-1">
-            Made with <Heart size={12} className="text-primary" /> by Gaurav ©{" "}
+            Made with <Heart size={12} className="text-primary" /> by Adiii ©{" "}
             {new Date().getFullYear()}
           </p>
         </div>

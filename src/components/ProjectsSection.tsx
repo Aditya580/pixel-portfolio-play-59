@@ -1,175 +1,177 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { ExternalLink, Github, Gamepad2, Zap, Monitor } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+
 
 const projects = [
   {
     id: 1,
     title: "PROJECT ONE",
-    subtitle: "Epic Game-Inspired Landing",
-    description:
-      "An epic game-inspired landing page with GSAP animations. Features a hero intro with timeline-based scene reveal, magnetic cursor, and optimized 60fps scroll-driven sections.",
-    features: [
-      "Hero intro with timeline-based scene reveal",
-      "Magnetic cursor that follows interactions",
-      "Optimized 60fps scroll-driven sections",
-      "Game-like HUD elements",
+    description: "Epic game-inspired landing page with GSAP animations.",
+    points: [
+      "Hero intro with timeline-based scene reveal.",
+      "Magnetic cursor + hover sfx synced to UI.",
+      "Optimized 60fps scroll-driven sections.",
     ],
-    stack: ["React", "GSAP", "Tailwind", "Framer Motion"],
-    icon: Gamepad2,
-    color: "text-primary",
-    bgColor: "bg-primary/10",
+    stack: ["React", "GSAP", "Tailwind"],
+    image: "/p1.png",
+    link: "#",
   },
   {
     id: 2,
     title: "PROJECT TWO",
-    subtitle: "Performance Dashboard",
-    description:
-      "Real-time analytics dashboard with smooth animations and data visualizations. Built for speed with sub-second load times.",
-    features: [
-      "Real-time data streaming",
-      "Interactive chart animations",
-      "Dark/light theme support",
-      "Responsive grid layouts",
+    description: "High-performance dashboard with smooth transitions.",
+    points: [
+      "Real-time data visualization.",
+      "Smooth UI animations.",
+      "Optimized rendering performance.",
     ],
-    stack: ["Next.js", "D3.js", "TypeScript", "Recharts"],
-    icon: Zap,
-    color: "text-accent",
-    bgColor: "bg-accent/10",
+    stack: ["React", "Chart.js", "Tailwind"],
+    image: "/p2.png",
+    link: "#",
   },
-  {
-    id: 3,
+   {
+    id: 2,
     title: "PROJECT THREE",
-    subtitle: "Creative Portfolio",
-    description:
-      "A creative portfolio showcasing motion design work with seamless page transitions and immersive scrolling experiences.",
-    features: [
-      "Page transitions with shared layouts",
-      "Parallax scrolling effects",
-      "Custom cursor interactions",
-      "Video integration",
+    description: "High-performance dashboard with smooth transitions.",
+    points: [
+      "Real-time data visualization.",
+      "Smooth UI animations.",
+      "Optimized rendering performance.",
     ],
-    stack: ["React", "Framer Motion", "Three.js", "Vite"],
-    icon: Monitor,
-    color: "text-neon-green",
-    bgColor: "bg-neon-green/10",
+    stack: ["React", "Chart.js", "Tailwind"],
+    image: "/p3.png",
+    link: "#",
   },
+    {
+    id: 2,
+    title: "PROJECT FOUR",
+    description: "High-performance dashboard with smooth transitions.",
+    points: [
+      "Real-time data visualization.",
+      "Smooth UI animations.",
+      "Optimized rendering performance.",
+    ],
+    stack: ["React", "Chart.js", "Tailwind"],
+    image: "/p4.png",
+    link: "#",
+  },
+  
 ];
+
 
 const ProjectsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true });
+
+  const [index, setIndex] = useState(0);
+  const project = projects[index];
+
+  const prevProject = () =>
+    setIndex((i) => (i === 0 ? projects.length - 1 : i - 1));
+
+  const nextProject = () =>
+    setIndex((i) => (i === projects.length - 1 ? 0 : i + 1));
 
   return (
-    <section id="projects" className="py-24 bg-card/30" ref={ref}>
+    <section
+      id="projects"
+      ref={ref}
+      className="py-24 bg-[#FFF4B8] text-black"
+    >
       <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <span className="hud-element text-primary">// PORTFOLIO</span>
-          <h2 className="font-pixel text-xl md:text-2xl text-foreground mt-2">
-            RETRO <span className="text-accent">PROJECT WINDOW</span>
-          </h2>
-        </motion.div>
-
-        {/* Projects Grid */}
-        <div className="space-y-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
-              whileHover={{ y: -5 }}
-              className="game-card overflow-hidden group"
-            >
-              {/* Window Header */}
-              <div className="flex items-center justify-between px-4 py-3 bg-muted/50 border-b border-border">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-destructive" />
-                    <span className="w-3 h-3 rounded-full bg-primary" />
-                    <span className="w-3 h-3 rounded-full bg-neon-green" />
-                  </div>
-                  <span className="font-pixel text-xs text-muted-foreground ml-2">
-                    {project.title}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-1.5 hover:bg-muted rounded transition-colors"
-                  >
-                    <Github size={16} className="text-muted-foreground" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-1.5 hover:bg-muted rounded transition-colors"
-                  >
-                    <ExternalLink size={16} className="text-muted-foreground" />
-                  </motion.button>
-                </div>
-              </div>
-
-              {/* Project Content */}
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col md:flex-row gap-6">
-                  {/* Icon */}
-                  <div
-                    className={`w-16 h-16 ${project.bgColor} rounded-lg flex items-center justify-center flex-shrink-0`}
-                  >
-                    <project.icon className={project.color} size={32} />
-                  </div>
-
-                  {/* Details */}
-                  <div className="flex-1">
-                    <h3 className="font-pixel text-sm text-foreground mb-1">
-                      {project.title}
-                    </h3>
-                    <p className={`text-sm font-mono ${project.color} mb-4`}>
-                      {project.subtitle}
-                    </p>
-                    <p className="text-muted-foreground font-mono text-sm mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Features */}
-                    <ul className="grid md:grid-cols-2 gap-2 mb-4">
-                      {project.features.map((feature, i) => (
-                        <li
-                          key={i}
-                          className="flex items-center gap-2 text-xs text-muted-foreground font-mono"
-                        >
-                          <span className={project.color}>▸</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.stack.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 bg-muted text-foreground text-xs font-mono rounded"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        {/* Title */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold tracking-widest">PROJECTS</h2>
+          <p className="text-sm mt-2 font-mono">
+            Showcasing my work with a retro game twist ⚡
+          </p>
         </div>
+
+        {/* Retro Window */}
+        <motion.div
+          key={project.id}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+          className="border-[5px] border-black rounded-2xl overflow-hidden bg-white relative"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-2 bg-yellow-200 border-b-[5px] border-black">
+            <span className="text-xs font-mono">RETRO PROJECT WINDOW</span>
+            <span className="text-xs font-mono">
+              Arrow keys • Click arrows
+            </span>
+          </div>
+
+          {/* Arrows */}
+          <button
+            onClick={prevProject}
+            className="absolute left-3 top-1/2 -translate-y-1/2 border-[4px] border-black bg-white p-2 rounded-full hover:bg-black hover:text-white transition"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          <button
+            onClick={nextProject}
+            className="absolute right-3 top-1/2 -translate-y-1/2 border-[4px] border-black bg-white p-2 rounded-full hover:bg-black hover:text-white transition"
+          >
+            <ChevronRight size={18} />
+          </button>
+
+          {/* Content */}
+          <div className="grid md:grid-cols-2 gap-6 p-6">
+            {/* Image */}
+            <div className="border-[5px] border-black rounded-xl overflow-hidden">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Details */}
+            <div>
+              <h3 className="text-3xl font-extrabold text-orange-500 mb-3">
+                {project.title}
+              </h3>
+
+              <p className="font-mono text-sm mb-4">
+                {project.description}
+              </p>
+
+              {/* Stack */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.stack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 border-[3px] border-black rounded-md text-xs font-mono"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* Points */}
+              <ul className="space-y-2 mb-6 font-mono text-sm">
+                {project.points.map((p, i) => (
+                  <li key={i} className="flex gap-2">
+                    <span>▸</span>
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Button */}
+              <a
+                href={project.link}
+                className="inline-flex items-center gap-2 px-5 py-2 border-[4px] border-black rounded-lg font-mono text-sm hover:bg-black hover:text-white transition"
+              >
+                VIEW PROJECT <ExternalLink size={16} />
+              </a>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
